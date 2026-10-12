@@ -1,0 +1,8 @@
+# 只依赖 streamlit 本体；图片读取得益于 Streamlit 自带的 Pillow，无需额外声明。
+#
+# 关于 PDF 内嵌预览：Streamlit 1.65 的 st.pdf 需要可选组件 streamlit-pdf
+# （即 pip install "streamlit[pdf]"），但实测 streamlit-pdf 2.1.0 与本版本
+# Streamlit 的组件机制不兼容（import streamlit_pdf 直接抛
+# StreamlitAPIException: ... must be declared in pyproject.toml with asset_dir），
+# 因此本站不启用内嵌预览，改为提供 PDF / Word 下载。
+streamlit

@@ -1,0 +1,8 @@
+# Streamlit 主题：主色取自简历 PDF 的品牌深蓝
+[theme]
+primaryColor = "#284967"
+base = "light"
+
+[server]
+# 云端由平台托管，这里只影响本地预览时的行为
+headless = true
