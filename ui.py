@@ -288,12 +288,7 @@ def sidebar():
             st.markdown('<div class="side-links">' + "".join(links) + "</div>",
                         unsafe_allow_html=True)
 
-        pdf = asset(profile["resume_pdf"])
-        if pdf:
-            st.download_button(f"⬇️  {labels['download']}", pdf.read_bytes(),
-                               file_name=pdf.name, mime="application/pdf",
-                               use_container_width=True)
-
+        # 简历下载入口只在「简历」页提供，侧边栏不放
         st.caption(f"{labels['updated']}{'：' if lang() == 'zh' else ': '}"
                    f"{getattr(rdata(), 'UPDATED', '—')}")
 
