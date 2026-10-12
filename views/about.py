@@ -12,36 +12,24 @@ ui.sidebar()
 
 labels = ui.L(sd.LABELS)
 data = ui.rdata()
-
-# 技能条目在简历里带 ①②③ 序号，页面上去掉
 _MARKER = re.compile(r"^\s*[①-⑳]\s*")
 
+ui.page_title(sd.PAGES["about"][ui.lang()])
 
-def strip_marker(text):
-    return _MARKER.sub("", text).strip()
+ui.section(labels["education"])
+ui.timeline([
+    (item["period"], f"{item['school']}　{item['degree']}",
+     f"{labels['courses']}：{item['courses'].split('：', 1)[-1]}")
+    for item in data.EDUCATION
+])
 
+ui.section(labels["honors"])
+ui.bullet_list(data.HONORS)
 
-st.title(sd.PAGES["about"][ui.lang()])
+ui.section(labels["skills"])
+ui.bullet_list([_MARKER.sub("", s).strip() for s in data.SKILLS])
 
-ui.heading(labels["education"])
-for item in data.EDUCATION:
-    st.markdown(f"**{item['school']}**　{item['degree']}")
-    st.caption(item["period"])
-    courses = item["courses"].split("：", 1)[-1]
-    st.markdown(f"{labels['courses']}：{courses}")
-    st.write("")
-
-ui.heading(labels["honors"])
-for honor in data.HONORS:
-    st.markdown(f"- {honor}")
-
-st.write("")
-ui.heading(labels["skills"])
-for skill in data.SKILLS:
-    st.markdown(f"- {strip_marker(skill)}")
-
-st.write("")
-ui.heading(labels["summary"])
-st.markdown(data.SUMMARY)
+ui.section(labels["summary"])
+ui.card("", data.SUMMARY)
 
 ui.footer()

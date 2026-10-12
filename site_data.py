@@ -87,15 +87,23 @@ NAV = {
     "en": {"": ["home"], "Content": ["research", "works", "about"], "Other": ["resume", "contact", "github"]},
 }
 
-# 页面清单：key -> 文件、两种语言的标签、图标。github 走外链，没有文件。
+# 页面清单：key -> 文件、两种语言的标签、导航图标（Material Symbols）、备用 emoji。
+# github 走外链，没有文件。
 PAGES = {
-    "home":     {"file": "views/home.py",     "zh": "首页",      "en": "Home",     "icon": "🏠"},
-    "research": {"file": "views/research.py", "zh": "科研与项目", "en": "Research", "icon": "🔬"},
-    "works":    {"file": "views/works.py",    "zh": "作品与工具", "en": "Works",    "icon": "🧰"},
-    "about":    {"file": "views/about.py",    "zh": "关于我",    "en": "About",    "icon": "📄"},
-    "resume":   {"file": "views/resume.py",   "zh": "简历",      "en": "Resume",   "icon": "⬇️"},
-    "contact":  {"file": "views/contact.py",  "zh": "联系",      "en": "Contact",  "icon": "✉️"},
-    "github":   {"file": "",                  "zh": "GitHub",    "en": "GitHub",   "icon": "💻"},
+    "home":     {"file": "views/home.py",     "zh": "首页",      "en": "Home",
+                 "material": ":material/home:",       "icon": "🏠"},
+    "research": {"file": "views/research.py", "zh": "科研与项目", "en": "Research",
+                 "material": ":material/science:",    "icon": "🔬"},
+    "works":    {"file": "views/works.py",    "zh": "作品与工具", "en": "Works",
+                 "material": ":material/widgets:",    "icon": "🧰"},
+    "about":    {"file": "views/about.py",    "zh": "关于我",    "en": "About",
+                 "material": ":material/person:",     "icon": "📄"},
+    "resume":   {"file": "views/resume.py",   "zh": "简历",      "en": "Resume",
+                 "material": ":material/description:", "icon": "⬇️"},
+    "contact":  {"file": "views/contact.py",  "zh": "联系",      "en": "Contact",
+                 "material": ":material/mail:",       "icon": "✉️"},
+    "github":   {"file": "",                  "zh": "GitHub",    "en": "GitHub",
+                 "material": ":material/code:",       "icon": "💻"},
 }
 
 # 界面文字

@@ -9,29 +9,24 @@ ui.apply_theme()
 ui.sidebar()
 
 labels = ui.L(sd.LABELS)
-profile = ui.rdata().PROFILE
-fields = dict(profile["fields"])
+fields = dict(ui.rdata().PROFILE["fields"])
 pick = lambda zh_key, en_key: fields.get(zh_key if ui.lang() == "zh" else en_key)
 
-st.title(sd.PAGES["contact"][ui.lang()])
+ui.page_title(sd.PAGES["contact"][ui.lang()])
 
-rows = [
+pairs = [
     (ui.L({"zh": "邮箱", "en": "Email"}), pick("邮箱", "Email")),
     (ui.L({"zh": "现居城市", "en": "Location"}), pick("现居城市", "Location")),
 ]
 if sd.SHOW_PHONE:
-    rows.append((ui.L({"zh": "电话", "en": "Phone"}), pick("电话", "Phone")))
+    pairs.append((ui.L({"zh": "电话", "en": "Phone"}), pick("电话", "Phone")))
 
-for label, value in rows:
-    if value:
-        st.markdown(f"<div class='field-label'>{label}</div>"
-                    f"<div class='field-value'>{value}</div>", unsafe_allow_html=True)
+ui.contact_lines(pairs)
 
-st.write("")
-if sd.LINKS.get("github"):
-    st.link_button("💻  GitHub", sd.LINKS["github"], use_container_width=True)
 email = pick("邮箱", "Email")
 if email:
-    st.link_button(f"✉️  {labels['send_email']}", f"mailto:{email}", use_container_width=True)
+    st.link_button(f"✉️  {labels['send_email']}", f"mailto:{email}")
+if sd.LINKS.get("github"):
+    st.link_button("💻  GitHub", sd.LINKS["github"])
 
 ui.footer()

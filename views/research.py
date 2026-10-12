@@ -8,15 +8,11 @@ import ui
 ui.apply_theme()
 ui.sidebar()
 
-labels = ui.L(sd.LABELS)
-heading = sd.PAGES["research"][ui.lang()]
-st.title(heading)
+ui.page_title(sd.PAGES["research"][ui.lang()])
 
-for i, item in enumerate(ui.rdata().RESEARCH):
-    ui.heading(item["title"])
-    st.caption(f"{item['period']}　|　{item['role']}")
-    st.markdown(item["detail"])
-    if i != len(ui.rdata().RESEARCH) - 1:
-        st.divider()
+for item in ui.rdata().RESEARCH:
+    ui.card(item["title"], item["detail"],
+            meta=f"{item['period']}　·　{item['role']}",
+            tags=[item["role"]])
 
 ui.footer()

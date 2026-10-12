@@ -9,8 +9,9 @@ ui.apply_theme()
 ui.sidebar()
 
 labels = ui.L(sd.LABELS)
-st.title(sd.PAGES["resume"][ui.lang()])
-st.markdown(labels["download_hint"])
+ui.page_title(sd.PAGES["resume"][ui.lang()])
+
+ui.card(ui.L({"zh": "最新版简历", "en": "Latest résumé"}), labels["download_hint"])
 
 pdf = ui.asset(ui.rdata().PROFILE["resume_pdf"])
 if pdf:

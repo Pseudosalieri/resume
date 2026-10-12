@@ -8,15 +8,9 @@ import ui
 ui.apply_theme()
 ui.sidebar()
 
-st.title(sd.PAGES["works"][ui.lang()])
+ui.page_title(sd.PAGES["works"][ui.lang()])
 
 for item in ui.L(sd.WORKS):
-    ui.heading(item["title"])
-    st.markdown(item["summary"])
-    if item.get("detail"):
-        st.markdown(item["detail"])
-    if item.get("tags"):
-        ui.tags(item["tags"])
-    st.write("")
+    ui.card(item["title"], item.get("detail") or item["summary"], tags=item.get("tags"))
 
 ui.footer()

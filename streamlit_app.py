@@ -15,19 +15,22 @@ ui.bootstrap_lang()
 st.set_page_config(
     page_title=ui.rdata().PROFILE["name"],
     page_icon="🧪",
-    layout="centered",
+    layout="wide",            # 宽度由 ui.CSS 里的 stMainBlockContainer 限制并居中
     initial_sidebar_state="expanded",
 )
 
 
 def build_page(key):
     page = sd.PAGES[key]
-    label = f"{page['icon']}  {page[ui.lang()]}"
+    label = page[ui.lang()]
+    # 用 emoji 而不是 Material 图标：后者靠 Google Fonts 的连字渲染，
+    # 在字体拉不到的网络环境（例如中国大陆）会退化成 "home" 这样的英文单词。
+    icon = page["icon"]
     if key == "github":                       # 外链，点击在新标签打开
-        return st.Page(sd.LINKS["github"], title=label)
+        return st.Page(sd.LINKS["github"], title=label, icon=icon)
     if key == "home":
-        return st.Page(page["file"], title=label, default=True)
-    return st.Page(page["file"], title=label)
+        return st.Page(page["file"], title=label, icon=icon, default=True)
+    return st.Page(page["file"], title=label, icon=icon)
 
 
 navigation = {
