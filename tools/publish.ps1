@@ -69,14 +69,36 @@ if ($pages -ne 1) { Write-Warning "简历当前为 $pages 页，请确认是否�
 
 # ---- 3) 提交并推送 ----
 if ($NoPush) { Write-Host "已跳过提交（-NoPush）"; return }
+
+# 本机若开着系统代理，git 默认不会走它，直连 github.com:443 常会被重置；
+# 所以推送失败时自动读注册表里的系统代理重试一次。
+function Get-SystemProxy {
+    $key = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+    $p = Get-ItemProperty -Path $key -ErrorAction SilentlyContinue
+    if ($p.ProxyEnable -eq 1 -and $p.ProxyServer) { return "http://" + $p.ProxyServer }
+    return $null
+}
+
 Push-Location $root
 try {
     git add -A
     if (git status --porcelain) {
         if (-not $Message) { $Message = "同步简历更新 " + (Get-Date -Format "yyyy-MM-dd HH:mm") }
         git commit -q -m $Message
+
         git push -q origin main
-        Write-Host "已推送到 GitHub，社区云会在约 1 分钟内自动重新部署。"
+        if ($LASTEXITCODE -ne 0) {
+            $proxy = Get-SystemProxy
+            if ($proxy) {
+                Write-Host "直连推送失败，改用系统代理 $proxy 重试…"
+                git -c "http.proxy=$proxy" push -q origin main
+            }
+        }
+        if ($LASTEXITCODE -ne 0) {
+            Write-Warning "推送失败，提交已在本地。检查网络，或手动执行：git push origin main"
+        } else {
+            Write-Host "已推送到 GitHub，社区云会在约 1 分钟内自动重新部署。"
+        }
     } else {
         Write-Host "内容没有变化，无需提交。"
     }

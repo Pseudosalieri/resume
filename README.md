@@ -103,6 +103,11 @@ Advanced settings 里的 Python 版本选 3.12。这个选了之后不能再改�
 免费版应用 12 小时没人访问就休眠，访客得点一下按钮唤醒。想让它一直醒着，可以拿 UptimeRobot
 这类免费监控每隔几分钟 ping 一次。
 
+推送失败基本都是网络问题：本机开着代理时，git 默认不走系统代理，直连 github.com:443 会被
+重置（`Failed to connect to github.com:443`）。`tools/publish.ps1` 已经会自动读系统代理重试
+一次；手动推的话可以自己带上：
+`git config --global http.proxy http://127.0.0.1:7897`（端口换成你自己的代理）。
+
 应用默认是公开的，每周还会被搜索引擎抓一遍。页面上的手机号如果不想公开，把
 `site_data.py` 里的 `SHOW_PHONE` 改成 `False`。
 
