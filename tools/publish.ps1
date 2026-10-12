@@ -40,6 +40,12 @@ if ($LASTEXITCODE -ne 0) {
 & $py (Join-Path $tools "sync_from_docx.py") $Docx
 if ($LASTEXITCODE -ne 0) { throw "文案同步失败，已中止" }
 
+# ---- 1.5) 中英结构一致性检查（只提醒，不阻断发布）----
+& $py (Join-Path $tools "check_i18n.py")
+if ($LASTEXITCODE -ne 0) {
+    Write-Warning "中文简历结构变了，英文版 resume_data_en.py 可能没跟上（差异见上）。"
+}
+
 # ---- 2) 重新导出 PDF（先复制到临时目录，绝不碰原 docx）----
 $tmp = Join-Path $env:TEMP ("resume_publish_" + [guid]::NewGuid().ToString("N"))
 New-Item -ItemType Directory -Path $tmp | Out-Null
