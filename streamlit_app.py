@@ -22,6 +22,8 @@ ACCENT = "#284967"       # 取自简历 PDF 的品牌深蓝
 
 ROOT = Path(__file__).resolve().parent   # 与 Community Cloud 的工作目录（仓库根）一致
 PROFILE = data.PROFILE
+# 头衔行：只取方向本身，去掉「求职意向：」这类说明性前缀
+ROLE = PROFILE["tagline"].split("：", 1)[-1].strip()
 
 
 def asset(rel_path):
@@ -73,7 +75,7 @@ with st.sidebar:
 
     st.markdown(
         f"<h3 style='margin-bottom:0'>{PROFILE['name']}</h3>"
-        f"<div style='color:{ACCENT};font-weight:600;margin-bottom:.6rem'>{PROFILE['tagline']}</div>",
+        f"<div style='color:{ACCENT};font-weight:600;margin-bottom:.6rem'>{ROLE}</div>",
         unsafe_allow_html=True,
     )
 
@@ -93,25 +95,19 @@ with st.sidebar:
 
     st.divider()
     pdf = asset(PROFILE["resume_pdf"])
-    docx = asset(PROFILE["resume_docx"])
     if pdf:
         st.download_button("⬇️  下载简历 PDF", pdf.read_bytes(),
                            file_name="高宏曜-简历.pdf", mime="application/pdf",
                            use_container_width=True)
-    if docx:
-        st.download_button("⬇️  下载简历 Word", docx.read_bytes(),
-                           file_name="高宏曜-简历.docx",
-                           mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                           use_container_width=True)
-    if not (pdf or docx):
-        st.caption("简历原件未随仓库提供")
+    else:
+        st.caption("简历 PDF 未随仓库提供")
 
     st.caption(f"内容更新：{getattr(data, 'UPDATED', '—')}")
 
 
 # ---------------------------------------------------------------- 页首
 st.title(PROFILE["name"])
-st.caption(PROFILE["tagline"])
+st.caption(ROLE)
 
 basic = [("出生年月", fields.get("出生年月")), ("现居城市", fields.get("现居城市")),
          ("学　　历", fields.get("学历"))]
@@ -130,7 +126,7 @@ st.divider()
 
 # ---------------------------------------------------------------- 正文标签页
 tab_edu, tab_res, tab_honor, tab_skill, tab_about, tab_file = st.tabs(
-    ["教育经历", "科研经历", "荣誉奖励", "技能素质", "自我评价", "简历原件"]
+    ["教育经历", "科研经历", "荣誉奖励", "技能素质", "自我评价", "简历 PDF"]
 )
 
 with tab_edu:
@@ -159,22 +155,10 @@ with tab_about:
     st.markdown(data.SUMMARY)
 
 with tab_file:
-    st.markdown("简历原件的排版与 Word/PDF 版本完全一致，可直接下载：")
-    col_pdf, col_docx = st.columns(2)
-    with col_pdf:
-        if pdf:
-            st.download_button("⬇️  下载 PDF", pdf.read_bytes(), file_name="高宏曜-简历.pdf",
-                               mime="application/pdf", use_container_width=True)
-        else:
-            st.info("未找到简历 PDF")
-    with col_docx:
-        if docx:
-            st.download_button("⬇️  下载 Word", docx.read_bytes(), file_name="高宏曜-简历.docx",
-                               mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                               use_container_width=True)
-        else:
-            st.info("未找到简历 Word")
-    st.caption("如需打印或投递，建议使用 PDF 版本。")
-
-st.divider()
-st.caption("本站由 Streamlit 驱动 · 内容与 Word 版简历保持一致")
+    st.markdown("简历 PDF 与网页内容同源，均为最新版本，可直接下载：")
+    if pdf:
+        st.download_button("⬇️  下载最新版 PDF", pdf.read_bytes(),
+                           file_name="高宏曜-简历.pdf", mime="application/pdf")
+    else:
+        st.info("未找到简历 PDF")
+    st.caption("如需打印或投递，使用这个 PDF 即可。")

@@ -12,10 +12,10 @@ GitHub 只负责存放代码 → Community Cloud 负责 Clone、建 Python 环�
 ```
 streamlit_app.py         入口文件（部署时在「Main file path」填这个路径）
 resume_data.py           简历文案的唯一来源（改内容就改这里）
-tools/sync_from_docx.py  可选：从 Word 版简历同步文案到 resume_data.py（本地工具）
+tools/publish.ps1        一键发布：同步文案 + 重新导出 PDF + 提交推送
+tools/sync_from_docx.py  从 Word 简历提取文案到 resume_data.py（被 publish.ps1 调用）
 assets/avatar.jpg        证件照（360×504，由 1 寸照缩放而来）
-assets/高宏曜-简历.pdf     简历原件（供下载）
-assets/高宏曜-简历.docx    简历原件（供下载）
+assets/高宏曜-简历.pdf     简历 PDF —— 网站唯一提供的下载件，始终与网页内容同源
 .streamlit/config.toml   主题色等配置（须位于仓库根目录才会被云端读取）
 requirements.txt         依赖（锁定 streamlit==1.65.0，与本地实测版本一致）
 ```
@@ -61,22 +61,30 @@ streamlit run streamlit_app.py
 
 ## 日常更新简历
 
-**方式一（推荐，纯网页文案）：** 直接改 `resume_data.py`，然后
+**改完 Word 简历后，一条命令同步上线（推荐）：**
 
 ```powershell
-git add -A; git commit -m "更新简历内容"; git push
+.\tools\publish.ps1
 ```
 
-推送后社区云会自动重新构建并上线新版本（改依赖时重建要几分钟）。
+它依次做三件事：① 从 `../高宏曜 研发—理化分析开发方向.docx` 逐字提取文案重写
+`resume_data.py`（并自动校验每条文案都能在 docx 原文中找到）；② 用本机 Word 重新导出
+**最新一页 PDF** 覆盖 `assets/高宏曜-简历.pdf`（网站唯一提供的下载件，因此下载到的永远是
+最新版）；③ `git commit` + `git push`，社区云约 1 分钟内自动重新部署。
 
-**方式二（从 Word 简历同步）：** 先改好 Word 简历 `../高宏曜 研发—理化分析开发方向.docx`，再执行
+常用参数：
 
 ```powershell
-pip install python-docx          # 仅本地需要
-python tools/sync_from_docx.py
+.\tools\publish.ps1 -NoPush                 # 只同步与导出 PDF，不提交
+.\tools\publish.ps1 -Message "更新科研经历"   # 自定义提交信息
+.\tools\publish.ps1 -Docx "D:\其它路径\简历.docx"
 ```
 
-脚本会逐字提取文案重写 `resume_data.py`，并自动校验每条文案都能在 docx 原文中找到。
+前置：本机需装 Microsoft Word（导出 PDF 用）；脚本会自动往 `.venv` 里补装 `python-docx`。
+脚本会在简历超过一页时给出警告。
+
+**只改网页文案（不动 PDF）：** 直接改 `resume_data.py`，然后
+`git add -A; git commit -m "更新内容"; git push`。
 
 **换证件照：** 把新照片存成 `assets/avatar.jpg`（建议 360×504 或更大、3:4.2 竖版）后 push 即可。
 

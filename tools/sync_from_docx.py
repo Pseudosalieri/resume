@@ -180,7 +180,6 @@ PROFILE = {{
     "tagline": {py_literal(data["tagline"])},
     "avatar": "assets/avatar.jpg",
     "resume_pdf": "assets/高宏曜-简历.pdf",
-    "resume_docx": "assets/高宏曜-简历.docx",
     "fields": {py_literal(data["fields"], 4)},
 }}
 
@@ -224,7 +223,7 @@ def main():
     walk(ns["PROFILE"]["fields"])
     flat += [ns["PROFILE"]["name"], ns["PROFILE"]["tagline"]]
 
-    texts = [s for s in flat if len(s) > 1 and not s.endswith(".pdf") and not s.endswith(".docx")]
+    texts = [s for s in flat if len(s) > 1 and not s.endswith(".pdf")]
     missing = [s for s in texts if re.sub(r"\s+", "", s) not in norm]
     assert not missing, "以下文案在 docx 原文中找不到：\n" + "\n".join(missing[:5])
     print(f"OK  已生成 {OUT}")
