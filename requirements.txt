@@ -5,4 +5,7 @@
 # Streamlit 的组件机制不兼容（import streamlit_pdf 直接抛
 # StreamlitAPIException: ... must be declared in pyproject.toml with asset_dir），
 # 因此本站不启用内嵌预览，改为提供 PDF / Word 下载。
-streamlit
+#
+# 版本锁定：本地实测通过的就是 1.65.0，锁住可避免云端装到更新版本后 API 变化导致站点报错。
+# 需要升级时改这里的版本号并 push，社区云会自动重建。
+streamlit==1.65.0

@@ -17,7 +17,7 @@ assets/avatar.jpg        证件照（360×504，由 1 寸照缩放而来）
 assets/高宏曜-简历.pdf     简历原件（供下载）
 assets/高宏曜-简历.docx    简历原件（供下载）
 .streamlit/config.toml   主题色等配置（须位于仓库根目录才会被云端读取）
-requirements.txt         依赖（只有 streamlit）
+requirements.txt         依赖（锁定 streamlit==1.65.0，与本地实测版本一致）
 ```
 
 ## 本地预览
