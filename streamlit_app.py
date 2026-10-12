@@ -84,14 +84,9 @@ with st.sidebar:
     fields = dict(PROFILE["fields"])
     email = fields.get("邮箱")
     phone = fields.get("电话")
-    homepage = fields.get("个人主页")
 
     if email:
         st.link_button("✉️  发送邮件", f"mailto:{email}", use_container_width=True)
-    if phone and SHOW_PHONE:
-        st.link_button("📞  拨打电话", f"tel:{phone}", use_container_width=True)
-    if homepage:
-        st.link_button("🌐  个人主页", homepage, use_container_width=True)
     if GITHUB_URL:
         st.link_button("💻  GitHub", GITHUB_URL, use_container_width=True)
 
