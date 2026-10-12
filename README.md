@@ -1,6 +1,6 @@
 # 高宏曜的个人主页
 
-线上地址：<https://gaohongyao-resume.streamlit.app/>
+线上地址：<https://gaohongyao-homepage.streamlit.app/>
 
 用 Streamlit 写的个人网站，中英双语，用侧边栏导航分了几页：
 
@@ -78,7 +78,8 @@ requirements.txt          锁了 streamlit==1.65.0，和本地验证过的版本
 
 share.streamlit.io → Create app → 选 "Yup, I have an app" → 点 "Paste GitHub URL"，粘
 `https://github.com/Pseudosalieri/resume/blob/main/streamlit_app.py`，仓库、分支、主文件
-三项会自动填好。App URL 那栏填 `gaohongyao-resume`，不填会生成一长串很难记的子域名。
+三项会自动填好。App URL 那栏填一个记得住的子域名（目前在用的是 `gaohongyao-homepage`），
+不填会生成一长串很难记的子域名；注意改过子域名之后旧地址会变成 404。
 
 Advanced settings 里的 Python 版本选 3.12。这个选了之后不能再改，要换只能把应用删掉重新部署。
 
