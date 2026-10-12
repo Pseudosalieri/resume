@@ -10,6 +10,7 @@
 * 只依赖 streamlit 与标准库，云端构建最快、最不容易失败。
 """
 from pathlib import Path
+import re
 
 import streamlit as st
 
@@ -22,8 +23,13 @@ ACCENT = "#284967"       # 取自简历 PDF 的品牌深蓝
 
 ROOT = Path(__file__).resolve().parent   # 与 Community Cloud 的工作目录（仓库根）一致
 PROFILE = data.PROFILE
-# 头衔行：只取方向本身，去掉「求职意向：」这类说明性前缀
-ROLE = PROFILE["tagline"].split("：", 1)[-1].strip()
+
+# 技能条目去掉开头的圆圈序号（①②③…），只保留内容
+_SKILL_MARKER = re.compile(r"^\s*[①-⑳⒈-⒚]\s*")
+
+
+def skill_text(item):
+    return _SKILL_MARKER.sub("", item).strip()
 
 
 def asset(rel_path):
@@ -34,7 +40,7 @@ def asset(rel_path):
 
 # ---------------------------------------------------------------- 页面设置
 st.set_page_config(
-    page_title=f"{PROFILE['name']} · 个人简历",
+    page_title=PROFILE["name"],          # 不绑定「简历」字样，便于之后扩展成个人网站
     page_icon="📄",
     layout="centered",
     initial_sidebar_state="expanded",
@@ -49,9 +55,6 @@ st.markdown(
                          letter-spacing: .06em; }}
       .field-label {{ color: #6b7280; font-size: .82rem; }}
       .field-value {{ font-size: .98rem; }}
-      .chip {{ display:inline-block; background:{ACCENT}12; color:{ACCENT};
-               border:1px solid {ACCENT}33; border-radius:999px;
-               padding:.12rem .55rem; margin:.15rem .25rem .15rem 0; font-size:.82rem; }}
       a {{ text-decoration: none; }}
     </style>
     """,
@@ -74,8 +77,7 @@ with st.sidebar:
         st.info("未找到证件照（assets/avatar.jpg）")
 
     st.markdown(
-        f"<h3 style='margin-bottom:0'>{PROFILE['name']}</h3>"
-        f"<div style='color:{ACCENT};font-weight:600;margin-bottom:.6rem'>{ROLE}</div>",
+        f"<h3 style='margin:.2rem 0 .6rem 0'>{PROFILE['name']}</h3>",
         unsafe_allow_html=True,
     )
 
@@ -107,7 +109,6 @@ with st.sidebar:
 
 # ---------------------------------------------------------------- 页首
 st.title(PROFILE["name"])
-st.caption(ROLE)
 
 basic = [("出生年月", fields.get("出生年月")), ("现居城市", fields.get("现居城市")),
          ("学　　历", fields.get("学历"))]
@@ -149,7 +150,7 @@ with tab_honor:
 
 with tab_skill:
     for s in data.SKILLS:
-        st.markdown(f"- {s}")
+        st.markdown(f"- {skill_text(s)}")
 
 with tab_about:
     st.markdown(data.SUMMARY)
@@ -161,4 +162,3 @@ with tab_file:
                            file_name="高宏曜-简历.pdf", mime="application/pdf")
     else:
         st.info("未找到简历 PDF")
-    st.caption("如需打印或投递，使用这个 PDF 即可。")
