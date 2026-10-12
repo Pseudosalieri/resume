@@ -103,15 +103,17 @@ Advanced settings 里的 Python 版本选 3.12。这个选了之后不能再改�
 免费版应用 12 小时没人访问就休眠，访客得点一下按钮唤醒。想让它一直醒着，可以拿 UptimeRobot
 这类免费监控每隔几分钟 ping 一次。
 
-推送失败基本都是网络问题：本机开着代理时，git 默认不走系统代理，直连 github.com:443 会被
-重置（`Failed to connect to github.com:443`）。`tools/publish.ps1` 已经会自动读系统代理重试
-一次；手动推的话可以自己带上：
-`git config --global http.proxy http://127.0.0.1:7897`（端口换成你自己的代理）。
+网络这两条是踩过的：
+
+本机已经配好全局代理（`git config --global http.proxy http://127.0.0.1:7897`），推拉都走它。
+如果哪天把代理软件关了，git 会连不上，两种处理：临时绕过用 `git -c http.proxy= push origin main`；
+彻底取消用 `git config --global --unset http.proxy`。`tools/publish.ps1` 的推送会依次尝试
+当前配置 → 系统代理 → 完全不挂代理，三条都不行才报错并提示"提交已在本地"。
 
 国内镜像解决不了推送：kkgithub 这类站点是只读缓存，不接受写入（而且实测它的证书已经对不上，
 直接报 SNI/cert 错误）；gitclone.com 实测可以读（`git ls-remote
 https://gitclone.com/github.com/Pseudosalieri/resume.git`）。要克隆大仓库时可以用它加速，
-推送还是得直连或走代理。
+推送还是得靠上面的直连或代理。
 
 应用默认是公开的，每周还会被搜索引擎抓一遍。页面上的手机号如果不想公开，把
 `site_data.py` 里的 `SHOW_PHONE` 改成 `False`。

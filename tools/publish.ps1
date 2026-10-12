@@ -70,8 +70,8 @@ if ($pages -ne 1) { Write-Warning "简历当前为 $pages 页，请确认是否�
 # ---- 3) 提交并推送 ----
 if ($NoPush) { Write-Host "已跳过提交（-NoPush）"; return }
 
-# 本机若开着系统代理，git 默认不会走它，直连 github.com:443 常会被重置；
-# 所以推送失败时自动读注册表里的系统代理重试一次。
+# 推送三重兜底：当前 git 配置（可能含全局代理）→ 系统代理 → 完全不挂代理。
+# 这样代理开着、关着、或只开系统代理模式，都能推上去。
 function Get-SystemProxy {
     $key = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
     $p = Get-ItemProperty -Path $key -ErrorAction SilentlyContinue
@@ -86,18 +86,28 @@ try {
         if (-not $Message) { $Message = "同步简历更新 " + (Get-Date -Format "yyyy-MM-dd HH:mm") }
         git commit -q -m $Message
 
+        $pushed = $false
         git push -q origin main
-        if ($LASTEXITCODE -ne 0) {
+        if ($LASTEXITCODE -eq 0) { $pushed = $true }
+
+        if (-not $pushed) {
             $proxy = Get-SystemProxy
             if ($proxy) {
-                Write-Host "直连推送失败，改用系统代理 $proxy 重试…"
+                Write-Host "按当前配置推送失败，改用系统代理 $proxy 重试…"
                 git -c "http.proxy=$proxy" push -q origin main
+                if ($LASTEXITCODE -eq 0) { $pushed = $true }
             }
         }
-        if ($LASTEXITCODE -ne 0) {
-            Write-Warning "推送失败，提交已在本地。检查网络，或手动执行：git push origin main"
-        } else {
+        if (-not $pushed) {
+            Write-Host "再试一次完全不挂代理…"
+            git -c http.proxy= push -q origin main
+            if ($LASTEXITCODE -eq 0) { $pushed = $true }
+        }
+
+        if ($pushed) {
             Write-Host "已推送到 GitHub，社区云会在约 1 分钟内自动重新部署。"
+        } else {
+            Write-Warning "推送失败，提交已在本地。可手动执行：git push origin main"
         }
     } else {
         Write-Host "内容没有变化，无需提交。"
