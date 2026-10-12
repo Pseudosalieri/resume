@@ -108,6 +108,11 @@ Advanced settings 里的 Python 版本选 3.12。这个选了之后不能再改�
 一次；手动推的话可以自己带上：
 `git config --global http.proxy http://127.0.0.1:7897`（端口换成你自己的代理）。
 
+国内镜像解决不了推送：kkgithub 这类站点是只读缓存，不接受写入（而且实测它的证书已经对不上，
+直接报 SNI/cert 错误）；gitclone.com 实测可以读（`git ls-remote
+https://gitclone.com/github.com/Pseudosalieri/resume.git`）。要克隆大仓库时可以用它加速，
+推送还是得直连或走代理。
+
 应用默认是公开的，每周还会被搜索引擎抓一遍。页面上的手机号如果不想公开，把
 `site_data.py` 里的 `SHOW_PHONE` 改成 `False`。
 
