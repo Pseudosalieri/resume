@@ -179,7 +179,6 @@ PROFILE = {{
     "name": {py_literal(data["name"])},
     "tagline": {py_literal(data["tagline"])},
     "avatar": "assets/avatar.jpg",
-    "resume_pdf": "assets/高宏曜-简历.pdf",
     "fields": {py_literal(data["fields"], 4)},
 }}
 

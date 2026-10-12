@@ -14,7 +14,6 @@ PROFILE = {
     "name": "Hongyao Gao",
     "tagline": "",          # 站上不展示，保留字段以对齐中文版结构
     "avatar": "assets/avatar.jpg",
-    "resume_pdf": "assets/高宏曜-简历.pdf",
     "fields": [
         ("Date of birth", "2002-01"),
         ("Location", "Weihai, Shandong, China"),

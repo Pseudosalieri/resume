@@ -11,7 +11,6 @@ PROFILE = {
     "name": "高宏曜",
     "tagline": "求职意向：研发—理化分析开发方向",
     "avatar": "assets/avatar.jpg",
-    "resume_pdf": "assets/高宏曜-简历.pdf",
     "fields": [
         ("出生年月", "2002-01"),
         ("现居城市", "山东省-威海市"),

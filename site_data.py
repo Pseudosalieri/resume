@@ -63,7 +63,7 @@ WORKS = {
          "detail": "", "tags": ["reveal.js", "HTML"]},
         {"title": "本站：Streamlit 个人网站",
          "summary": "用 Streamlit 写的个人网站，托管在 Streamlit Community Cloud，"
-                    "页面文字与 PDF 由 Word 简历自动同步生成。",
+                    "页面文字由 Word 文档自动同步生成。",
          "detail": "", "tags": ["Streamlit", "Python"]},
     ],
     "en": [
@@ -76,15 +76,15 @@ WORKS = {
          "detail": "", "tags": ["reveal.js", "HTML"]},
         {"title": "This site: a Streamlit personal website",
          "summary": "A personal site written in Streamlit and hosted on Streamlit Community Cloud; "
-                    "the page text and the résumé PDF are generated from a Word document.",
+                    "the page text is generated from a Word document.",
          "detail": "", "tags": ["Streamlit", "Python"]},
     ],
 }
 
 # 导航：分组标题 -> 页面 key（顺序即显示顺序）。"" 表示不分组。
 NAV = {
-    "zh": {"": ["home"], "内容": ["research", "works", "about"], "其它": ["resume", "contact", "github"]},
-    "en": {"": ["home"], "Content": ["research", "works", "about"], "Other": ["resume", "contact", "github"]},
+    "zh": {"": ["home"], "内容": ["research", "works", "about"], "其它": ["contact", "github"]},
+    "en": {"": ["home"], "Content": ["research", "works", "about"], "Other": ["contact", "github"]},
 }
 
 # 页面清单：key -> 文件、两种语言的标签、导航图标（Material Symbols）、备用 emoji。
@@ -98,8 +98,6 @@ PAGES = {
                  "material": ":material/widgets:",    "icon": "🧰"},
     "about":    {"file": "views/about.py",    "zh": "关于我",    "en": "About",
                  "material": ":material/person:",     "icon": "📄"},
-    "resume":   {"file": "views/resume.py",   "zh": "简历",      "en": "Resume",
-                 "material": ":material/description:", "icon": "⬇️"},
     "contact":  {"file": "views/contact.py",  "zh": "联系",      "en": "Contact",
                  "material": ":material/mail:",       "icon": "✉️"},
     "github":   {"file": "",                  "zh": "GitHub",    "en": "GitHub",
@@ -109,8 +107,6 @@ PAGES = {
 # 界面文字
 LABELS = {
     "zh": {
-        "download": "下载简历 PDF",
-        "download_hint": "简历 PDF 与网页内容同源，均为最新版本。",
         "send_email": "发送邮件",
         "contact_title": "联系方式",
         "updated": "内容更新",
@@ -121,11 +117,8 @@ LABELS = {
         "courses": "主修课程",
         "role_at": "担任",
         "lang_label": "语言",
-        "papers_note": "简历 PDF 为中文版。",
     },
     "en": {
-        "download": "Résumé (Chinese, PDF)",
-        "download_hint": "The PDF is the same version as this page, kept in sync automatically.",
         "send_email": "Email me",
         "contact_title": "Contact",
         "updated": "Updated",
@@ -136,6 +129,5 @@ LABELS = {
         "courses": "Core courses",
         "role_at": "Role",
         "lang_label": "Language",
-        "papers_note": "The résumé PDF is in Chinese.",
     },
 }

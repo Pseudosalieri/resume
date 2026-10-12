@@ -14,7 +14,7 @@ labels = ui.L(sd.LABELS)
 
 ui.hero(site["name"], site["intro"], photo=ui.asset(profile["avatar"]))
 
-# 联系方式：简历下载只放在「简历」页，这里不重复放入口
+# 联系方式：站上不提供简历下载，这里只放邮件与 GitHub
 fields = dict(profile["fields"])
 email = fields.get(ui.L({"zh": "邮箱", "en": "Email"}))
 col1, col2 = st.columns(2)

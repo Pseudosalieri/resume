@@ -288,7 +288,7 @@ def sidebar():
             st.markdown('<div class="side-links">' + "".join(links) + "</div>",
                         unsafe_allow_html=True)
 
-        # 简历下载入口只在「简历」页提供，侧边栏不放
+        # 站上不提供简历下载，侧边栏只放联系方式与语言开关
         st.caption(f"{labels['updated']}{'：' if lang() == 'zh' else ': '}"
                    f"{getattr(rdata(), 'UPDATED', '—')}")
 
