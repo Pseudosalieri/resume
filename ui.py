@@ -113,6 +113,12 @@ html, body, [data-testid="stAppViewContainer"] {{ background: #fcfcfd; }}
 .card .meta {{ color: var(--muted); font-size: .82rem; margin-bottom: .5rem; }}
 .card .body {{ color: #374151; font-size: .94rem; line-height: 1.85; }}
 .card .body p {{ margin: 0 0 .5rem; }}
+.card .links {{ margin: .55rem 0 .05rem; }}
+.card .links a {{
+  color: var(--accent); font-size: .87rem; font-weight: 550; text-decoration: none;
+  border-radius: 7px; padding: .12rem .34rem; margin-left: -.34rem; transition: all .15s ease;
+}}
+.card .links a:hover {{ background: var(--accent-soft); text-decoration: underline; }}
 
 .chips {{ margin: .1rem 0 .2rem; }}
 .chip {{
@@ -222,7 +228,7 @@ def section(label):
     )
 
 
-def card(title, body="", meta="", tags=None):
+def card(title, body="", meta="", tags=None, link="", link_label=""):
     parts = [f'<div class="card">']
     if title:
         parts.append(f"<h3>{esc(title)}</h3>")
@@ -233,6 +239,10 @@ def card(title, body="", meta="", tags=None):
         parts.append(f'<div class="body">{paragraphs}</div>')
     if tags:
         parts.append(chips_html(tags))
+    if link:
+        label = link_label or link
+        parts.append(f'<div class="links"><a href="{esc(link)}" target="_blank" '
+                     f'rel="noopener">{esc(label)} <span aria-hidden="true">↗</span></a></div>')
     parts.append("</div>")
     st.markdown("".join(parts), unsafe_allow_html=True)
 

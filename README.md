@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 首页 | `/` | 一段自我介绍、方向关键词、近况 |
 | 科研与项目 | `/research` | 两段科研经历 |
-| 作品与工具 | `/works` | 做过的小东西 |
+| 作品 | `/works` | 做过的小东西，能点进代码仓库 |
 | 关于我 | `/about` | 教育经历、荣誉奖励、技能素质、自我评价 |
 | 联系 | `/contact` | 邮箱、GitHub、电话 |
 
@@ -59,7 +59,7 @@ streamlit run streamlit_app.py
 ```
 streamlit_app.py          入口：建导航（页面清单来自 site_data.NAV），部署时主文件填这个
 ui.py                     共用件：语言切换、主题样式、小节标题、侧边栏、页脚
-site_data.py              站点文案：首页、作品、导航、界面文字、外链，中英并列
+site_data.py              站点文案：首页、作品、导航、界面文字、外链，中英并列（作品条目可带 link 外链）
 resume_data.py            中文简历内容（由 publish.ps1 从 Word 同步，别手改）
 resume_data_en.py         英文简历内容（手工维护，结构要和上面一致）
 views/                    五个页面，一个文件一页

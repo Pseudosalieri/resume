@@ -13,6 +13,7 @@ SHOW_PHONE = True
 # 站外链接（两种语言共用）
 LINKS = {
     "github": "https://github.com/Pseudosalieri/resume",
+    "thesis_refinery": "https://github.com/Pseudosalieri/thesis-refinery",
 }
 
 SITE = {
@@ -52,12 +53,14 @@ SITE = {
     },
 }
 
-# 作品与工具。detail 留空就先不显示，等有具体内容再补。
+# 作品。detail 留空就先不显示；link 是外链，link_label 是链接文字（留空则显示网址）。
 WORKS = {
     "zh": [
         {"title": "学位论文排版与精修",
-         "summary": "借助 AI 辅助编程完成学位论文的排版与文字精修。",
-         "detail": "", "tags": ["Python", "写作"]},
+         "summary": "把已经写成的 Word 学位论文变成可复现的构建产物：版式与校验都由命令完成，"
+                    "用断言而不是肉眼证明排版没有走样。",
+         "detail": "", "link": LINKS["thesis_refinery"], "link_label": "GitHub 仓库",
+         "tags": ["Python", "Quarto", "开源"]},
         {"title": "可交互 HTML 学术汇报",
          "summary": "基于 reveal.js 制作可交互的学术汇报演示文稿。",
          "detail": "", "tags": ["reveal.js", "HTML"]},
@@ -68,8 +71,11 @@ WORKS = {
     ],
     "en": [
         {"title": "Thesis formatting and copy-editing",
-         "summary": "Formatted and copy-edited my master's thesis with help from AI-assisted scripting.",
-         "detail": "", "tags": ["Python", "writing"]},
+         "summary": "Turns an already-written Word thesis into a reproducible build artifact: "
+                    "the format pass and the checks run from the command line, so assertions, "
+                    "not eyeballs, prove the layout did not drift.",
+         "detail": "", "link": LINKS["thesis_refinery"], "link_label": "GitHub repository",
+         "tags": ["Python", "Quarto", "open source"]},
         {"title": "Interactive HTML presentations",
          "summary": "Academic presentations built with reveal.js, so slides can be clicked through "
                     "in a browser.",
@@ -94,7 +100,7 @@ PAGES = {
                  "material": ":material/home:",       "icon": "🏠"},
     "research": {"file": "views/research.py", "zh": "科研与项目", "en": "Research",
                  "material": ":material/science:",    "icon": "🔬"},
-    "works":    {"file": "views/works.py",    "zh": "作品与工具", "en": "Works",
+    "works":    {"file": "views/works.py",    "zh": "作品",      "en": "Works",
                  "material": ":material/widgets:",    "icon": "🧰"},
     "about":    {"file": "views/about.py",    "zh": "关于我",    "en": "About",
                  "material": ":material/person:",     "icon": "📄"},
